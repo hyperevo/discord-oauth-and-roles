@@ -1,0 +1,20 @@
+<?php
+    #debugging stuff
+    ini_set('display_errors', 1);
+	error_reporting(1);
+	ini_set('error_reporting', E_ALL);
+    
+    #rchain discord info - make sure you put the bot into a role that has manage_roles permissions
+    define('DISCORD_COOP_ROLE', ''); #coop role name string to determine if member (case-insensitive)
+    define('RCHAIN_GUILD_ID', ''); #in discord: user settings-> appearance -> turn on developer mode, right click guild name-> copy id
+    
+    #OAuth app credentials - get these from loggin into your discord account at https://discordapp.com/developers/ and clicking on the app
+    define('CLIENT_ID', ''); 
+    define('CLIENT_SECRET', ''); 
+    define('REDIRECT_URI', ''); #this is where the script takes the user after they authenticate
+    
+    #Bot app app credentials - get these from loggin into your discord account at https://discordapp.com/developers/ and clicking on the bot app
+    define('BOT_TOKEN', '');
+    
+    
+?>
