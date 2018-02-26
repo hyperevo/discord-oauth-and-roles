@@ -17,7 +17,7 @@ $provider = new \Wohali\OAuth2\Client\Provider\Discord([
 
 $options = [
     'state' => 'OPTIONAL_CUSTOM_CONFIGURED_STATE',
-    'scope' => ['identify', 'guilds'] // array or string
+    'scope' => ['identify'] // array or string
 ];
 
 if (!isset($_GET['code'])) {
@@ -36,9 +36,16 @@ if (!isset($_GET['code'])) {
 } else {
 
     // Step 2. Get an access token using the provided authorization code
-    $token = $provider->getAccessToken('authorization_code', [
-        'code' => $_GET['code']
-    ]);
+    try 
+    {
+        $token = $provider->getAccessToken('authorization_code', [
+            'code' => $_GET['code']
+        ]);
+    }
+    catch (Exception $e)
+    {
+        exit('Invalid authorization code.'); 
+    }
 
     // testing
     #echo '<h2>Token details:</h2>';
@@ -88,7 +95,10 @@ $role_id_required = $discordHelperClass->getRoleIdFromString($roles_array, DISCO
 $guild_members = $discord->guild->listGuildMembers(['guild.id' => intval(RCHAIN_GUILD_ID), 'limit' => 1000]);
 
 #get the roles of the authorized member/user
-$user_roles = $discordHelperClass->getRolesOfUser($guild_members, $user->getUsername(), $user->getDiscriminator());
+if(!$user_roles = $discordHelperClass->getRolesOfUser($guild_members, $user->getUsername(), $user->getDiscriminator()))
+{
+    echo "That user is not in this guild";
+}
 
 echo "<br>role id's that the authenticated user has<br>";
 print_r($user_roles);
